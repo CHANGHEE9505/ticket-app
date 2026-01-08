@@ -18,7 +18,7 @@ const redis = new Redis({
 redis.setnx('tickets', 1000); 
 
 // 1. [조회 API] 현재 남은 티켓 수 확인 (프론트에서 1초마다 물어볼 예정)
-app.get('/remaining', async (req, res) => {
+app.get('/order/remaining', async (req, res) => {
     try {
         const remaining = await redis.get('tickets');
         res.json({ remaining: parseInt(remaining) || 0 });
@@ -28,7 +28,7 @@ app.get('/remaining', async (req, res) => {
 });
 
 // 2. [주문 API] 티켓 구매 (결제 척하는 딜레이 추가!)
-app.post('/order', async (req, res) => {
+app.post('/order/order', async (req, res) => {
     try {
         // 🔥 핵심: 실제 결제처럼 0.5초 ~ 1.5초 랜덤하게 기다림 (서버 부하 유도)
         const processingTime = Math.floor(Math.random() * 1000) + 500;

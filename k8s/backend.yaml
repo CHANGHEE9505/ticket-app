@@ -19,6 +19,12 @@ spec:
         imagePullPolicy: Always  # 👈 중요! 무조건 최신 이미지를 새로 받아오게 하는 설정
         ports:
         - containerPort: 3000    # 👈 중요! 백엔드 코드와 똑같이 3000번으로 통일
+        resources:
+          requests:
+            cpu: "200m"  # 평소에 CPU 0.2개 정도 필요함
+            memory: "128Mi"
+          limits:
+            cpu: "500m"  # 최대 0.5개까지만 써라
 ---
 apiVersion: v1
 kind: Service

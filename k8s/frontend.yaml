@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: clouddxuser/ticket-frontend:v5 # 👈 본인 아이디로 변경!
+        image: clouddxuser/ticket-frontend:v4 # 👈 본인 아이디로 변경!
         ports:
         - containerPort: 80
 ---

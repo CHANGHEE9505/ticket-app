@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                // 깃허브 코드 가져오기 (기본)
+                checkout scm
+            }
+        }
+        stage('Build & Push Backend') {
+            steps {
+                // 중요: backend 폴더 안에서 실행해라!
+                dir('backend') {
+                    script {
+                        // 도커 이미지 빌드
+                        sh 'docker build -t changhee9505/ticket-backend:latest .'
+                        
+                        // 도커 허브 로그인 & 푸시
+                        withCredentials([usernamePassword(credentialsId: 'docker-hub-login', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                            sh 'docker login -u $USER -p $PASS'
+                            sh 'docker push changhee9505/ticket-backend:latest'
+                        }
+                    }
+                }
+            }
+        }
+        stage('Update K8s Manifest') {
+            steps {
+                // k8s 폴더에 있는 yaml 파일 수정 (재배포 유도)
+                // (선택사항: 태그를 latest가 아니라 버전별로 관리할 때 사용)
+                echo "Deploying to ArgoCD..."
+            }
+        }
+    }
+}

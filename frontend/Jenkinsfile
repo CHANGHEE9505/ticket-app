@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    stages {
+        // 1. 깃허브에서 코드 가져오기
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        // 2. 프론트엔드 빌드 및 도커 허브 푸시
+        stage('Build & Push Frontend') {
+            steps {
+                // 중요: frontend 폴더 안으로 들어가서 작업해라!
+                dir('frontend') {
+                    script {
+                        echo 'Building Frontend Image...'
+                        
+                        // 도커 이미지 빌드 (이미지 이름: ticket-frontend)
+                        sh 'docker build -t changhee9505/ticket-frontend:latest .'
+                        
+                        // 도커 허브 로그인 및 푸시
+                        // (credentialsId는 젠킨스에 등록한 ID와 같아야 합니다. 보통 docker-hub-login 사용)
+                        withCredentials([usernamePassword(credentialsId: 'docker-hub-login', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                            sh 'docker login -u $USER -p $PASS'
+                            sh 'docker push changhee9505/ticket-frontend:latest'
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // (선택 사항) 빌드 끝나면 성공/실패 메시지 출력
+    post {
+        success {
+            echo 'Frontend Build & Push Success! 🎉'
+        }
+        failure {
+            echo 'Frontend Build Failed... 😢'
+        }
+    }
+}

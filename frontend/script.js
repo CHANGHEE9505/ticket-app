@@ -4,7 +4,7 @@ const messageBox = document.getElementById('message-box');
 const seatCountSpan = document.getElementById('seat-count'); // HTML에 이거 추가해야 함
 
 // 👇 (중요) 본인의 로드밸런서 주소로 변경!!
-const API_URL = 'http://acdf45111be5a4516892841ac44e61a4-380652517.ap-northeast-2.elb.amazonaws.com/order';  
+const API_URL = 'http://ab978b89c92804935b50fe0fae001444-470660808.ap-northeast-2.elb.amazonaws.com/order';  
 
 // 1. 실시간 잔여 좌석 확인 (1초마다 실행)
 async function updateSeatCount() {

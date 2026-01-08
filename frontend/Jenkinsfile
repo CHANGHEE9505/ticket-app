@@ -23,8 +23,8 @@ pipeline {
                         // 도커 허브 로그인 및 푸시
                         // (credentialsId는 젠킨스에 등록한 ID와 같아야 합니다. 보통 docker-hub-login 사용)
                         withCredentials([usernamePassword(credentialsId: 'docker-hub-login', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                            sh 'docker login -u $USER -p $PASS'
-                            sh 'docker push changhee9505/ticket-frontend:latest'
+                            sh 'docker build -t clouddxuser/ticket-frontend:latest .'
+                            sh 'docker push clouddxuser/ticket-frontend:latest'
                         }
                     }
                 }

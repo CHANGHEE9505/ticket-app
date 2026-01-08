@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: clouddxuser/ticket-backend:v4  # 👈 본인 아이디로 변경! 태그는 일단 v4로 고정
+        image: clouddxuser/ticket-backend:latest  # 👈 본인 아이디로 변경! 태그는 일단 v4로 고정
         ports:
         - containerPort: 8080
 ---

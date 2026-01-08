@@ -17,8 +17,8 @@ pipeline {
                         
                         // 도커 허브 로그인 & 푸시
                         withCredentials([usernamePassword(credentialsId: 'docker-hub-login', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                            sh 'docker login -u $USER -p $PASS'
-                            sh 'docker push changhee9505/ticket-backend:latest'
+                            sh 'docker build -t clouddxuser/ticket-backend:latest .'
+                            sh 'docker push clouddxuser/ticket-backend:latest'
                         }
                     }
                 }

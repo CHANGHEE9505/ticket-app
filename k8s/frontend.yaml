@@ -1,22 +1,10 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: frontend-service
-spec:
-  type: LoadBalancer # 웹 브라우저 접속용 URL 생성
-  selector:
-    app: frontend
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
----
+# k8s/frontend.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: frontend
@@ -27,4 +15,19 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: clouddxuser/ticket-frontend:v5
+        image: clouddxuser/ticket-frontend:v5 # 👈 본인 아이디로 변경!
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  type: LoadBalancer # 외부 접속용
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
